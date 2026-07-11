@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MorsAra | پنل مدیریت سفارش‌ها</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,667 +12,309 @@
   :root{
     --bg:#0b0b0c; --panel:#151517; --panel-2:#1b1b1e; --border:#2b2b2f;
     --text:#f1ede4; --text-soft:#a6a29a; --gold:#d8b56a; --gold-2:#b6893f;
-    --green:#3fbf6a; --maroon:#c0463f; --blue:#5b9bd5; --radius:10px;
+    --green:#3fbf6a; --maroon:#c0463f; --radius:10px;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:var(--bg); font-family:'Vazirmatn', sans-serif; color:var(--text); min-height:100vh;
+    background:var(--bg);
+    background-image: radial-gradient(circle at 15% 0%, rgba(216,181,106,.06), transparent 40%),
+                       radial-gradient(circle at 85% 20%, rgba(216,181,106,.05), transparent 45%);
+    font-family:'Vazirmatn', sans-serif; color:var(--text); min-height:100vh;
   }
-  .wrap{ max-width:1150px; margin:0 auto; padding:26px 18px 80px; }
-  h1{ font-size:1.3rem; color:var(--gold); margin:0 0 22px; font-weight:700; }
-  h2.section-title{ font-size:.95rem; color:var(--gold); margin:0 0 14px; font-weight:700; }
+  .wrap{ max-width:900px; margin:0 auto; padding:26px 18px 80px; }
 
-  /* login */
-  .login-box{
-    max-width:360px; margin:80px auto; background:var(--panel); border:1px solid var(--border);
-    border-radius:var(--radius); padding:30px 26px; text-align:center;
+  /* Login */
+  .login-screen{
+    min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;
   }
-  .login-box h2{ color:var(--gold); font-size:1.1rem; margin:0 0 20px; }
-  .login-box label{ display:block; text-align:right; font-size:.78rem; color:var(--text-soft); margin-bottom:6px; }
+  .login-box{
+    width:100%; max-width:360px; background:var(--panel); border:1px solid var(--border);
+    border-radius:var(--radius); padding:32px 28px; text-align:center;
+  }
+  .login-box .brand{ font-weight:800; letter-spacing:.2em; color:var(--gold); font-size:1.3rem; margin-bottom:4px; direction:ltr; }
+  .login-box .sub{ color:var(--text-soft); font-size:.8rem; margin-bottom:24px; }
   .login-box input{
-    width:100%; background:var(--panel-2); border:1px solid var(--border); color:var(--text);
-    padding:11px 12px; border-radius:8px; margin-bottom:14px; font-family:'Vazirmatn'; font-size:.9rem; outline:none;
+    width:100%; border:1px solid var(--border); background:var(--panel-2); color:var(--text);
+    padding:12px 14px; border-radius:8px; font-family:'Vazirmatn'; font-size:.92rem; outline:none; margin-bottom:12px;
   }
   .login-box input:focus{ border-color:var(--gold); }
   .btn{
     display:inline-flex; align-items:center; justify-content:center; gap:8px; border:none; cursor:pointer;
-    font-family:'Vazirmatn'; font-weight:700; font-size:.86rem; padding:11px 20px;
+    font-family:'Vazirmatn'; font-weight:700; font-size:.86rem; padding:12px 24px; width:100%;
     border-radius:8px; background:linear-gradient(135deg, var(--gold), var(--gold-2)); color:#20160a; transition:.2s;
   }
-  .login-box .btn{ width:100%; }
-  .btn:hover{ transform:translateY(-1px); }
-  .btn:disabled{ opacity:.6; cursor:not-allowed; transform:none; }
-  .btn:focus-visible, .status-select:focus-visible, .toolbar input:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
-  .login-error{ color:var(--maroon); font-size:.8rem; margin-top:10px; display:none; }
+  .btn:hover{ transform:translateY(-1px); box-shadow:0 8px 18px rgba(216,181,106,.25); }
+  .btn:disabled{ opacity:.6; cursor:not-allowed; transform:none; box-shadow:none; }
+  .btn.ghost{ background:transparent; color:var(--text-soft); border:1.5px solid var(--border); margin-top:10px; }
+  .login-error{ color:var(--maroon); font-size:.78rem; margin-top:10px; display:none; text-align:center; }
 
-  /* dashboard */
-  .topbar{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px; }
-  .topbar-actions{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-  .notif-badge{
-    background:var(--maroon); color:#fff; font-size:.7rem; font-weight:700; padding:2px 8px;
-    border-radius:20px; display:none;
+  /* Header */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    margin-bottom:24px; padding-bottom:18px; border-bottom:1px solid var(--border);
   }
+  .topbar h1{ font-size:1.05rem; color:var(--gold); margin:0; font-weight:700; }
+  .topbar .who{ font-size:.76rem; color:var(--text-soft); }
   .logout-btn{
-    background:transparent; border:1.5px solid var(--border); color:var(--text-soft); padding:8px 16px;
-    border-radius:8px; font-family:'Vazirmatn'; font-size:.8rem; cursor:pointer;
+    background:transparent; border:1.5px solid var(--border); color:var(--text-soft);
+    padding:8px 16px; border-radius:8px; font-family:'Vazirmatn'; font-size:.78rem; cursor:pointer; transition:.2s;
   }
   .logout-btn:hover{ border-color:var(--maroon); color:var(--maroon); }
 
-  .stats{ display:grid; grid-template-columns:repeat(auto-fit, minmax(130px,1fr)); gap:12px; margin-bottom:18px; }
-  .stat-card{ background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; }
-  .stat-card .num{ font-size:1.3rem; color:var(--gold); font-weight:700; }
-  .stat-card .lbl{ font-size:.72rem; color:var(--text-soft); margin-top:4px; }
+  /* Stats */
+  .stats-row{ display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:12px; margin-bottom:20px; }
+  .stat-card{ background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px; }
+  .stat-card .num{ font-size:1.4rem; font-weight:800; color:var(--gold); }
+  .stat-card .lbl{ font-size:.75rem; color:var(--text-soft); margin-top:2px; }
 
-  .report-panel{ background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; margin-bottom:18px; }
-  .report-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(110px,1fr)); gap:10px; margin-bottom:14px; }
-  .report-item{ background:var(--panel-2); border:1px solid var(--border); border-radius:8px; padding:10px 12px; text-align:center; }
-  .report-item .rn{ font-size:1.1rem; font-weight:700; color:var(--text); }
-  .report-item .rl{ font-size:.68rem; color:var(--text-soft); margin-top:2px; }
-  .bar-chart{ display:flex; align-items:flex-end; gap:6px; height:80px; }
-  .bar-chart .bar-col{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:4px; }
-  .bar-chart .bar{ width:100%; background:linear-gradient(180deg, var(--gold), var(--gold-2)); border-radius:4px 4px 0 0; min-height:2px; }
-  .bar-chart .bar-lbl{ font-size:.62rem; color:var(--text-soft); }
-
-  .toolbar{
-    display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:18px;
-    background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px;
-  }
+  .toolbar{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; align-items:center; }
   .toolbar input[type=text]{
-    flex:1; min-width:180px; background:var(--panel-2); border:1px solid var(--border); color:var(--text);
-    padding:9px 12px; border-radius:8px; font-family:'Vazirmatn'; font-size:.85rem; outline:none;
+    flex:1; min-width:180px; border:1px solid var(--border); background:var(--panel-2); color:var(--text);
+    padding:10px 14px; border-radius:8px; font-family:'Vazirmatn'; font-size:.85rem; outline:none;
   }
-  .toolbar input[type=text]:focus{ border-color:var(--gold); }
-  .toolbar select{
-    background:var(--panel-2); border:1px solid var(--border); color:var(--text); padding:9px 10px;
-    border-radius:8px; font-family:'Vazirmatn'; font-size:.82rem; outline:none;
+  .toolbar input:focus{ border-color:var(--gold); }
+  .refresh-btn{
+    background:var(--panel-2); border:1px solid var(--border); color:var(--gold);
+    padding:10px 16px; border-radius:8px; font-family:'Vazirmatn'; font-size:.8rem; cursor:pointer; transition:.2s; white-space:nowrap;
   }
-  .icon-btn{
-    background:var(--panel-2); border:1px solid var(--border); color:var(--gold); padding:9px 16px;
-    border-radius:8px; font-family:'Vazirmatn'; font-size:.8rem; cursor:pointer;
-  }
-  .icon-btn:hover{ border-color:var(--gold); }
-  .icon-btn:disabled{ opacity:.6; cursor:not-allowed; }
+  .refresh-btn:hover{ border-color:var(--gold-2); }
 
-  .orders-empty{ color:var(--text-soft); text-align:center; padding:40px 0; }
-
+  /* Orders list */
   .order-card{
     background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
-    padding:18px 20px; margin-bottom:14px;
+    margin-bottom:10px; overflow:hidden; transition:.15s;
   }
-  .order-card.is-new{ border-color:var(--gold-2); box-shadow:0 0 0 1px rgba(216,181,106,.15) inset; }
-  .order-card .oc-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:4px; }
-  .order-card .oc-idname{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-  .order-card .oc-orderno{ font-size:.68rem; color:var(--text-soft); font-family:monospace; direction:ltr; }
-  .order-card .oc-name{ font-size:1.05rem; font-weight:700; color:var(--text); word-break:break-word; }
-  .order-card .oc-date{ font-size:.74rem; color:var(--text-soft); margin-top:2px; }
-  .order-card .oc-total{ font-size:1.1rem; color:var(--gold); font-weight:700; white-space:nowrap; }
-  .oc-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); gap:10px; margin:12px 0; }
-  .oc-item{ background:var(--panel-2); border:1px solid var(--border); border-radius:8px; padding:9px 12px; }
-  .oc-item .k{ font-size:.7rem; color:var(--text-soft); margin-bottom:3px; }
-  .oc-item .v{ font-size:.85rem; color:var(--text); font-weight:600; word-break:break-word; }
-  .oc-item .v.morse{ direction:ltr; text-align:left; font-family:monospace; color:var(--gold); letter-spacing:1px; }
-  .oc-item .v.phone{ direction:ltr; text-align:left; }
-
-  .quick-actions{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
-  .quick-actions a{
-    display:inline-flex; align-items:center; gap:6px; text-decoration:none; font-size:.76rem; font-weight:700;
-    padding:7px 14px; border-radius:20px; border:1px solid var(--border); color:var(--text-soft); transition:.15s;
+  .order-card:hover{ border-color:var(--gold-2); }
+  .order-row{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:16px 18px; cursor:pointer; flex-wrap:wrap;
   }
-  .quick-actions a.call-link:hover{ border-color:var(--blue); color:var(--blue); }
-  .quick-actions a.wa-link:hover{ border-color:var(--green); color:var(--green); }
-
-  .status-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:space-between; }
-  .status-row .left-controls{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-  .status-badge{ font-size:.72rem; font-weight:700; padding:4px 12px; border-radius:20px; display:inline-block; white-space:nowrap; }
+  .order-row .main-info{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .order-row .name{ font-weight:700; font-size:.95rem; color:var(--text); }
+  .order-row .phone{ font-size:.82rem; color:var(--gold); direction:ltr; }
+  .order-row .date{ font-size:.72rem; color:var(--text-soft); }
+  .status-badge{
+    font-size:.68rem; font-weight:700; padding:3px 10px; border-radius:20px; white-space:nowrap;
+  }
   .status-badge.new{ background:rgba(216,181,106,.15); color:var(--gold); border:1px solid var(--gold-2); }
-  .status-badge.making{ background:rgba(91,155,213,.15); color:var(--blue); border:1px solid var(--blue); }
-  .status-badge.sent{ background:rgba(63,191,106,.15); color:var(--green); border:1px solid var(--green); }
-  .status-badge.done{ background:rgba(166,162,154,.15); color:var(--text-soft); border:1px solid var(--border); }
-  .status-select{
-    background:var(--panel-2); border:1px solid var(--border); color:var(--text); padding:6px 10px;
-    border-radius:8px; font-family:'Vazirmatn'; font-size:.78rem; outline:none; cursor:pointer;
-  }
-  .status-select:focus{ border-color:var(--gold); }
-  .status-select:disabled{ opacity:.6; cursor:not-allowed; }
-  .status-saving{ font-size:.72rem; color:var(--text-soft); }
+  .status-badge.done{ background:rgba(63,191,106,.12); color:var(--green); border:1px solid var(--green); }
+  .chev{ color:var(--text-soft); font-size:.8rem; transition:.2s; }
+  .order-card.open .chev{ transform:rotate(180deg); }
 
-  .delete-btn{
-    background:transparent; border:1px solid var(--border); color:var(--text-soft); padding:6px 14px;
-    border-radius:8px; font-family:'Vazirmatn'; font-size:.76rem; cursor:pointer; transition:.15s;
+  .order-details{ display:none; padding:0 18px 18px; border-top:1px solid var(--border); }
+  .order-card.open .order-details{ display:block; }
+  .detail-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:10px; margin-top:14px; }
+  .detail-item{ background:var(--panel-2); border:1px solid var(--border); border-radius:8px; padding:10px 12px; }
+  .detail-item .k{ font-size:.7rem; color:var(--text-soft); margin-bottom:4px; }
+  .detail-item .v{ font-size:.86rem; color:var(--text); font-weight:600; }
+  .detail-item .v.morse{ direction:ltr; text-align:left; font-family:monospace; letter-spacing:2px; color:var(--gold); }
+  .detail-notes{ margin-top:10px; background:var(--panel-2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:.84rem; color:var(--text-soft); line-height:1.9; }
+  .detail-actions{ display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
+  .detail-actions button, .detail-actions a{
+    flex:1; min-width:140px; text-align:center; padding:9px 14px; border-radius:8px; font-family:'Vazirmatn';
+    font-size:.78rem; font-weight:700; cursor:pointer; border:none; text-decoration:none;
   }
-  .delete-btn:hover{ border-color:var(--maroon); color:var(--maroon); }
-  .delete-btn.confirming{ background:var(--maroon); border-color:var(--maroon); color:#fff; }
+  .mark-done-btn{ background:linear-gradient(135deg,#3fbf6a,#279050); color:#fff; }
+  .wa-open-btn{ background:transparent; border:1.5px solid var(--border); color:var(--text); }
+  .wa-open-btn:hover{ border-color:var(--gold); color:var(--gold); }
 
-  @media (max-width:480px){
-    .wrap{ padding:18px 12px 60px; }
-    .status-row{ flex-direction:column; align-items:stretch; }
-    .status-row .left-controls{ justify-content:space-between; }
-  }
+  .empty-state, .loading-state{ text-align:center; color:var(--text-soft); font-size:.85rem; padding:40px 0; }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <div id="loginView" class="login-box">
-    <h2>ورود مدیر</h2>
-    <label for="adminEmail">ایمیل</label>
-    <input type="email" id="adminEmail" autocomplete="username">
-    <label for="adminPassword">رمز عبور</label>
-    <input type="password" id="adminPassword" autocomplete="current-password">
-    <button type="button" class="btn" id="loginBtn">ورود</button>
-    <div class="login-error" id="loginError" role="alert"></div>
+<!-- در حال اتصال -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="brand">MORSARA</div>
+    <div class="sub" id="connectStatus">در حال اتصال به فایربیس…</div>
+    <div class="login-error" id="loginError"></div>
   </div>
-
-  <div id="dashboardView" style="display:none;">
-    <div class="topbar">
-      <h1>سفارش‌های MorsAra <span class="notif-badge" id="notifBadge">0</span></h1>
-      <div class="topbar-actions">
-        <button type="button" class="icon-btn" id="exportBtn">خروجی اکسل (CSV)</button>
-        <button type="button" class="logout-btn" id="logoutBtn">خروج</button>
-      </div>
-    </div>
-
-    <div class="stats">
-      <div class="stat-card"><div class="num" id="statTotal">۰</div><div class="lbl">کل سفارش‌ها</div></div>
-      <div class="stat-card"><div class="num" id="statNew">۰</div><div class="lbl">جدید</div></div>
-      <div class="stat-card"><div class="num" id="statMaking">۰</div><div class="lbl">در حال آماده‌سازی</div></div>
-      <div class="stat-card"><div class="num" id="statSent">۰</div><div class="lbl">ارسال شده</div></div>
-      <div class="stat-card"><div class="num" id="statDone">۰</div><div class="lbl">تکمیل شده</div></div>
-      <div class="stat-card"><div class="num" id="statRevenue">۰ تومان</div><div class="lbl">جمع کل فروش</div></div>
-    </div>
-
-    <div class="report-panel">
-      <h2 class="section-title">گزارش فروش</h2>
-      <div class="report-grid">
-        <div class="report-item"><div class="rn" id="repTodayCount">۰</div><div class="rl">سفارش امروز</div></div>
-        <div class="report-item"><div class="rn" id="repWeekCount">۰</div><div class="rl">سفارش این هفته</div></div>
-        <div class="report-item"><div class="rn" id="repMonthCount">۰</div><div class="rl">سفارش این ماه</div></div>
-        <div class="report-item"><div class="rn" id="repTodayRevenue">۰</div><div class="rl">فروش امروز</div></div>
-        <div class="report-item"><div class="rn" id="repWeekRevenue">۰</div><div class="rl">فروش این هفته</div></div>
-      </div>
-      <div class="bar-chart" id="barChart"></div>
-    </div>
-
-    <div class="toolbar">
-      <input type="text" id="searchInput" placeholder="جستجو بر اساس نام، شماره تماس یا شماره سفارش…" autocomplete="off">
-      <select id="sortSelect">
-        <option value="desc">جدیدترین اول</option>
-        <option value="asc">قدیمی‌ترین اول</option>
-        <option value="priceDesc">مبلغ: زیاد به کم</option>
-        <option value="priceAsc">مبلغ: کم به زیاد</option>
-      </select>
-      <select id="statusFilter">
-        <option value="">همه‌ی وضعیت‌ها</option>
-        <option value="جدید">جدید</option>
-        <option value="در حال آماده‌سازی">در حال آماده‌سازی</option>
-        <option value="ارسال شده">ارسال شده</option>
-        <option value="تکمیل شده">تکمیل شده</option>
-      </select>
-      <button type="button" class="icon-btn" id="refreshBtn">به‌روزرسانی</button>
-    </div>
-
-    <div id="ordersWrap" aria-live="polite"><div class="orders-empty">در حال بارگذاری…</div></div>
-  </div>
-
 </div>
 
-<!-- crossorigin="anonymous" برای نمایش کامل جزئیات خطا در کنسول به‌جای «Script error.» -->
+<!-- ADMIN PANEL -->
+<div class="wrap" id="adminScreen" style="display:none;">
+  <div class="topbar">
+    <h1>پنل مدیریت سفارش‌ها</h1>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span class="who" id="whoLabel">متصل به فایربیس</span>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="num" id="statTotal">0</div><div class="lbl">کل سفارش‌ها</div></div>
+    <div class="stat-card"><div class="num" id="statNew">0</div><div class="lbl">سفارش جدید</div></div>
+    <div class="stat-card"><div class="num" id="statDone">0</div><div class="lbl">انجام‌شده</div></div>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="searchInput" placeholder="جستجو بر اساس اسم یا شماره تماس…">
+    <button type="button" class="refresh-btn" id="refreshBtn">به‌روزرسانی</button>
+  </div>
+
+  <div id="ordersList"></div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" crossorigin="anonymous"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" crossorigin="anonymous"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js" crossorigin="anonymous"></script>
-<script src="firebase-config.js"></script>
+<!--
+  همان فایل تنظیمات فایربیسِ سایت اصلی را اینجا هم لود می‌کنیم تا
+  auth و db از قبل تعریف‌شده باشند و پروژه‌ی یکسانی استفاده شود.
+-->
+<script src="firebase-config.js" onerror="console.warn('[MorsAra-Admin] firebase-config.js لود نشد.')"></script>
 <script>
 'use strict';
 
-/* فقط این ایمیل اجازه‌ی مشاهده‌ی پنل را دارد. این مقدار باید با ایمیل واقعی مدیر
-   جایگزین شود و دقیقاً همین مقدار در قوانین امنیتی Firestore هم قرار بگیرد. */
-var ADMIN_EMAIL = "admin@morsara.shop";
-var ORDERS_LIMIT = 300; // سقف تعداد سفارش دریافتی در هر بار، برای کنترل مصرف Firestore
-var STATUSES = ['جدید', 'در حال آماده‌سازی', 'ارسال شده', 'تکمیل شده'];
-var LAST_SEEN_KEY = 'morsara_admin_last_seen_count';
-
 document.addEventListener('DOMContentLoaded', function () {
 
+  var loginScreen = document.getElementById('loginScreen');
+  var adminScreen = document.getElementById('adminScreen');
+  var loginError = document.getElementById('loginError');
+  var ordersList = document.getElementById('ordersList');
+  var whoLabel = document.getElementById('whoLabel');
+
   var allOrders = [];
-  var pendingDeleteId = null;
+  var unsubscribeOrders = null;
 
-  /* ---- ورود ---- */
-  function doLogin(){
-    var email = document.getElementById('adminEmail').value.trim();
-    var password = document.getElementById('adminPassword').value;
-    var errBox = document.getElementById('loginError');
-    var btn = document.getElementById('loginBtn');
-    errBox.style.display = 'none';
-
-    if(!email || !password){
-      errBox.textContent = 'لطفاً ایمیل و رمز عبور را وارد کنید.';
-      errBox.style.display = 'block';
-      return;
-    }
-
-    btn.disabled = true;
-    btn.textContent = 'در حال ورود…';
-    auth.signInWithEmailAndPassword(email, password)
-      .catch(function (err) {
-        console.error('[MorsAra-Admin] خطای ورود:', err);
-        errBox.textContent = 'ایمیل یا رمز عبور اشتباه است.';
-        errBox.style.display = 'block';
-      })
-      .finally(function () {
-        btn.disabled = false;
-        btn.textContent = 'ورود';
-      });
+  if(typeof auth === 'undefined' || typeof db === 'undefined'){
+    loginError.textContent = 'فایل تنظیمات فایربیس (firebase-config.js) پیدا نشد یا auth/db را تعریف نکرده است.';
+    loginError.style.display = 'block';
+    return;
   }
-  document.getElementById('loginBtn').addEventListener('click', doLogin);
-  document.getElementById('adminPassword').addEventListener('keydown', function (e) {
-    if(e.key === 'Enter') doLogin();
-  });
 
-  document.getElementById('logoutBtn').addEventListener('click', function () {
-    auth.signOut();
-  });
+  function fmtDate(ts){
+    if(!ts) return '—';
+    var d = ts.toDate ? ts.toDate() : new Date(ts);
+    return d.toLocaleDateString('fa-IR') + ' - ' + d.toLocaleTimeString('fa-IR', {hour:'2-digit', minute:'2-digit'});
+  }
+  function fmtPrice(n){ return (n || 0).toLocaleString('fa-IR') + ' تومان'; }
+  function escapeHtml(str){
+    return String(str == null ? '' : str).replace(/[&<>"']/g, function (c) {
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+    });
+  }
 
+  /* ---- اتصال خودکار (بدون فرم ورود) ---- */
   auth.onAuthStateChanged(function (user) {
-    if(user && user.email === ADMIN_EMAIL){
-      document.getElementById('loginView').style.display = 'none';
-      document.getElementById('dashboardView').style.display = 'block';
-      loadOrders();
-    }else if(user){
-      // کاربر واردشده مدیر نیست؛ بلافاصله خارج شود
-      var errBox = document.getElementById('loginError');
-      errBox.textContent = 'شما اجازه‌ی دسترسی به این پنل را ندارید.';
-      errBox.style.display = 'block';
-      auth.signOut();
-    }else{
-      document.getElementById('loginView').style.display = 'block';
-      document.getElementById('dashboardView').style.display = 'none';
+    if(user){
+      loginScreen.style.display = 'none';
+      adminScreen.style.display = 'block';
+      startListening();
     }
   });
 
-  /* ---- بارگذاری سفارش‌ها ---- */
-  function loadOrders(){
-    var wrap = document.getElementById('ordersWrap');
-    var refreshBtn = document.getElementById('refreshBtn');
-    wrap.innerHTML = '<div class="orders-empty">در حال بارگذاری…</div>';
-    refreshBtn.disabled = true;
+  auth.signInAnonymously().catch(function (err) {
+    console.error('[MorsAra-Admin] خطای اتصال:', err);
+    document.getElementById('connectStatus').textContent = 'اتصال به فایربیس ناموفق بود.';
+    loginError.textContent = 'خطا: ' + (err && err.message ? err.message : 'نامشخص') + ' — کنسول مرورگر (F12) را برای جزئیات بیشتر ببینید.';
+    loginError.style.display = 'block';
+  });
 
-    db.collection('orders').orderBy('createdAt', 'desc').limit(ORDERS_LIMIT).get()
-      .then(function (snap) {
-        allOrders = snap.docs.map(function (doc) {
-          return Object.assign({ id: doc.id }, doc.data());
+  /* ---- گوش‌دادن زنده به سفارش‌ها ---- */
+  function startListening(){
+    ordersList.innerHTML = '<div class="loading-state">در حال بارگذاری سفارش‌ها…</div>';
+    if(unsubscribeOrders) unsubscribeOrders();
+    unsubscribeOrders = db.collection('orders').orderBy('createdAt', 'desc')
+      .onSnapshot(function (snapshot) {
+        allOrders = snapshot.docs.map(function (doc) {
+          var data = doc.data();
+          data._id = doc.id;
+          return data;
         });
-        updateNotifBadge();
-        renderStats();
-        renderReport();
         renderOrders();
-      })
-      .catch(function (err) {
+      }, function (err) {
         console.error('[MorsAra-Admin] خطای دریافت سفارش‌ها:', err);
-        wrap.innerHTML = '<div class="orders-empty">خطا در دریافت سفارش‌ها. دسترسی یا قوانین Firestore را بررسی کنید.</div>';
-      })
-      .finally(function () {
-        refreshBtn.disabled = false;
+        ordersList.innerHTML = '<div class="empty-state">خطا در دریافت سفارش‌ها. احتمالاً قوانین امنیتی فایربیس (Firestore Rules) اجازه‌ی خواندن به این حساب را نداده‌اند.</div>';
       });
   }
-  document.getElementById('refreshBtn').addEventListener('click', loadOrders);
+
+  document.getElementById('refreshBtn').addEventListener('click', startListening);
   document.getElementById('searchInput').addEventListener('input', renderOrders);
-  document.getElementById('sortSelect').addEventListener('change', renderOrders);
-  document.getElementById('statusFilter').addEventListener('change', renderOrders);
-
-  /* ---- اعلان سفارش‌های جدید (خوانده‌نشده) ---- */
-  function updateNotifBadge(){
-    var lastSeen = parseInt(localStorage.getItem(LAST_SEEN_KEY) || '0', 10);
-    var newCount = allOrders.length - lastSeen;
-    var badge = document.getElementById('notifBadge');
-    if(newCount > 0){
-      badge.textContent = toFaDigits(newCount);
-      badge.style.display = 'inline-block';
-    }else{
-      badge.style.display = 'none';
-    }
-    localStorage.setItem(LAST_SEEN_KEY, String(allOrders.length));
-  }
-
-  /* ---- کارت‌های آماری ---- */
-  function orderDate(o){
-    return (o.createdAt && o.createdAt.toDate) ? o.createdAt.toDate() : null;
-  }
-
-  function renderStats(){
-    var counts = { 'جدید': 0, 'در حال آماده‌سازی': 0, 'ارسال شده': 0, 'تکمیل شده': 0 };
-    var revenue = 0;
-    allOrders.forEach(function (o) {
-      var st = STATUSES.indexOf(o.status) !== -1 ? o.status : 'جدید';
-      counts[st]++;
-      revenue += o.totalPrice || 0;
-    });
-    document.getElementById('statTotal').textContent = toFaDigits(allOrders.length);
-    document.getElementById('statNew').textContent = toFaDigits(counts['جدید']);
-    document.getElementById('statMaking').textContent = toFaDigits(counts['در حال آماده‌سازی']);
-    document.getElementById('statSent').textContent = toFaDigits(counts['ارسال شده']);
-    document.getElementById('statDone').textContent = toFaDigits(counts['تکمیل شده']);
-    document.getElementById('statRevenue').textContent = fmt(revenue);
-  }
-
-  /* ---- گزارش فروش امروز/هفته/ماه + نمودار میله‌ای ۷ روز اخیر ---- */
-  function renderReport(){
-    var now = new Date();
-    var startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    var startOfWeek = new Date(startOfToday.getTime() - 6 * 86400000);
-    var startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-
-    var todayCount = 0, weekCount = 0, monthCount = 0, todayRevenue = 0, weekRevenue = 0;
-    var dayBuckets = {};
-    for(var i = 6; i >= 0; i--){
-      var d = new Date(startOfToday.getTime() - i * 86400000);
-      dayBuckets[d.toDateString()] = 0;
-    }
-
-    allOrders.forEach(function (o) {
-      var d = orderDate(o);
-      if(!d) return;
-      var price = o.totalPrice || 0;
-      if(d >= startOfToday){ todayCount++; todayRevenue += price; }
-      if(d >= startOfWeek){ weekCount++; weekRevenue += price; }
-      if(d >= startOfMonth){ monthCount++; }
-      var key = d.toDateString();
-      if(Object.prototype.hasOwnProperty.call(dayBuckets, key)) dayBuckets[key]++;
-    });
-
-    document.getElementById('repTodayCount').textContent = toFaDigits(todayCount);
-    document.getElementById('repWeekCount').textContent = toFaDigits(weekCount);
-    document.getElementById('repMonthCount').textContent = toFaDigits(monthCount);
-    document.getElementById('repTodayRevenue').textContent = fmt(todayRevenue);
-    document.getElementById('repWeekRevenue').textContent = fmt(weekRevenue);
-
-    var maxCount = Math.max.apply(null, Object.keys(dayBuckets).map(function (k) { return dayBuckets[k]; }).concat([1]));
-    var chart = document.getElementById('barChart');
-    chart.innerHTML = '';
-    var dayNames = ['ی', 'د', 'س', 'چ', 'پ', 'ج', 'ش'];
-    Object.keys(dayBuckets).forEach(function (key) {
-      var count = dayBuckets[key];
-      var d = new Date(key);
-      var col = document.createElement('div');
-      col.className = 'bar-col';
-      var bar = document.createElement('div');
-      bar.className = 'bar';
-      bar.style.height = Math.max(2, Math.round((count / maxCount) * 70)) + 'px';
-      bar.title = toFaDigits(count) + ' سفارش';
-      var lbl = document.createElement('div');
-      lbl.className = 'bar-lbl';
-      lbl.textContent = dayNames[d.getDay()];
-      col.appendChild(bar);
-      col.appendChild(lbl);
-      chart.appendChild(col);
-    });
-  }
-
-  function statusClass(status){
-    if(status === 'در حال آماده‌سازی') return 'making';
-    if(status === 'ارسال شده') return 'sent';
-    if(status === 'تکمیل شده') return 'done';
-    return 'new';
-  }
-
-  function orderNumber(id){
-    return '#' + id.slice(-6).toUpperCase();
-  }
 
   /* ---- رندر لیست سفارش‌ها ---- */
   function renderOrders(){
-    var wrap = document.getElementById('ordersWrap');
     var query = document.getElementById('searchInput').value.trim().toLowerCase();
-    var sortMode = document.getElementById('sortSelect').value;
-    var statusFilterVal = document.getElementById('statusFilter').value;
-
-    var list = allOrders.filter(function (o) {
-      var matchesQuery = !query ||
-        (o.name && o.name.toLowerCase().indexOf(query) !== -1) ||
-        (o.phone && o.phone.indexOf(query) !== -1) ||
-        orderNumber(o.id).toLowerCase().indexOf(query) !== -1;
-      var matchesStatus = !statusFilterVal || (o.status || 'جدید') === statusFilterVal;
-      return matchesQuery && matchesStatus;
+    var filtered = allOrders.filter(function (o) {
+      if(!query) return true;
+      return (o.name || '').toLowerCase().indexOf(query) !== -1 ||
+             (o.phone || '').indexOf(query) !== -1;
     });
 
-    list = list.slice().sort(function (a, b) {
-      var ta = a.createdAt && a.createdAt.toDate ? a.createdAt.toDate().getTime() : 0;
-      var tb = b.createdAt && b.createdAt.toDate ? b.createdAt.toDate().getTime() : 0;
-      if(sortMode === 'asc') return ta - tb;
-      if(sortMode === 'priceDesc') return (b.totalPrice || 0) - (a.totalPrice || 0);
-      if(sortMode === 'priceAsc') return (a.totalPrice || 0) - (b.totalPrice || 0);
-      return tb - ta;
-    });
+    document.getElementById('statTotal').textContent = allOrders.length;
+    document.getElementById('statNew').textContent = allOrders.filter(function (o) { return o.status !== 'انجام‌شده'; }).length;
+    document.getElementById('statDone').textContent = allOrders.filter(function (o) { return o.status === 'انجام‌شده'; }).length;
 
-    if(!list.length){
-      wrap.innerHTML = '<div class="orders-empty">سفارشی مطابق فیلتر یافت نشد.</div>';
+    if(!filtered.length){
+      ordersList.innerHTML = '<div class="empty-state">سفارشی یافت نشد.</div>';
       return;
     }
 
-    wrap.innerHTML = '';
-    list.forEach(function (o) {
-      wrap.appendChild(buildOrderCard(o));
-    });
-  }
+    ordersList.innerHTML = filtered.map(function (o, idx) {
+      var isDone = o.status === 'انجام‌شده';
+      var waText = encodeURIComponent(
+        'سلام ' + (o.name || '') + '، سفارش شما (' + (o.morseCode || '') + ') در حال آماده‌سازی است.'
+      );
+      return (
+        '<div class="order-card" data-idx="' + idx + '">' +
+          '<div class="order-row" data-toggle="' + idx + '">' +
+            '<div class="main-info">' +
+              '<span class="name">' + escapeHtml(o.name || 'بدون‌نام') + '</span>' +
+              '<span class="phone">' + escapeHtml(o.phone || '—') + '</span>' +
+              '<span class="date">' + fmtDate(o.createdAt) + '</span>' +
+            '</div>' +
+            '<div style="display:flex; align-items:center; gap:10px;">' +
+              '<span class="status-badge ' + (isDone ? 'done' : 'new') + '">' + (isDone ? 'انجام‌شده' : 'جدید') + '</span>' +
+              '<span class="chev">▾</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="order-details">' +
+            '<div class="detail-grid">' +
+              '<div class="detail-item"><div class="k">کد مورس</div><div class="v morse">' + escapeHtml(o.morseCode || '—') + '</div></div>' +
+              '<div class="detail-item"><div class="k">نوع محصول</div><div class="v">' + escapeHtml(o.productType || '—') + '</div></div>' +
+              '<div class="detail-item"><div class="k">نوع بند</div><div class="v">' + escapeHtml(o.cordType || '—') + '</div></div>' +
+              '<div class="detail-item"><div class="k">رنگ مهره‌ها</div><div class="v">' + escapeHtml((o.colors || []).join('، ')) + '</div></div>' +
+              '<div class="detail-item"><div class="k">تعداد مهره قلبی</div><div class="v">' + (o.heartCount || 0) + '</div></div>' +
+              '<div class="detail-item"><div class="k">تعداد خط / نقطه</div><div class="v">' + (o.dashCount || 0) + ' خط، ' + (o.dotCount || 0) + ' نقطه</div></div>' +
+              '<div class="detail-item"><div class="k">قیمت پایه</div><div class="v">' + fmtPrice(o.basePrice) + '</div></div>' +
+              '<div class="detail-item"><div class="k">قیمت نهایی</div><div class="v" style="color:var(--gold); font-size:1rem;">' + fmtPrice(o.totalPrice) + '</div></div>' +
+            '</div>' +
+            (o.notes ? '<div class="detail-notes"><b>توضیحات:</b> ' + escapeHtml(o.notes) + '</div>' : '') +
+            '<div class="detail-actions">' +
+              '<a class="wa-open-btn" href="https://wa.me/' + escapeHtml((o.phone || '').replace(/^0/, '98')) + '?text=' + waText + '" target="_blank" rel="noopener noreferrer">پیام در واتساپ به مشتری</a>' +
+              (isDone
+                ? '<button type="button" class="mark-done-btn" data-undo="' + escapeHtml(o._id) + '" style="background:linear-gradient(135deg,var(--gold),var(--gold-2)); color:#20160a;">برگرداندن به «جدید»</button>'
+                : '<button type="button" class="mark-done-btn" data-done="' + escapeHtml(o._id) + '">علامت‌گذاری به‌عنوان انجام‌شده</button>') +
+            '</div>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join('');
 
-  /* ---- ساخت کارت سفارش با DOM API امن (بدون innerHTML برای داده‌ی کاربر) ---- */
-  function buildOrderCard(o){
-    var dateStr = (o.createdAt && o.createdAt.toDate) ? o.createdAt.toDate().toLocaleString('fa-IR') : 'در حال ثبت…';
-    var colorsStr = Array.isArray(o.colors) ? o.colors.join('، ') : '—';
-    var status = STATUSES.indexOf(o.status) !== -1 ? o.status : 'جدید';
-
-    var card = document.createElement('div');
-    card.className = 'order-card' + (status === 'جدید' ? ' is-new' : '');
-
-    var head = document.createElement('div');
-    head.className = 'oc-head';
-    var nameBlock = document.createElement('div');
-    var idNameRow = document.createElement('div');
-    idNameRow.className = 'oc-idname';
-    var orderNoEl = document.createElement('span');
-    orderNoEl.className = 'oc-orderno';
-    orderNoEl.textContent = orderNumber(o.id);
-    var nameEl = document.createElement('span');
-    nameEl.className = 'oc-name';
-    nameEl.textContent = o.name || '—';
-    idNameRow.appendChild(orderNoEl);
-    idNameRow.appendChild(nameEl);
-    var dateEl = document.createElement('div');
-    dateEl.className = 'oc-date';
-    dateEl.textContent = dateStr;
-    nameBlock.appendChild(idNameRow);
-    nameBlock.appendChild(dateEl);
-    var totalEl = document.createElement('div');
-    totalEl.className = 'oc-total';
-    totalEl.textContent = fmt(o.totalPrice);
-    head.appendChild(nameBlock);
-    head.appendChild(totalEl);
-    card.appendChild(head);
-
-    /* دسترسی سریع: تماس مستقیم و واتساپ با پیام آماده */
-    if(o.phone){
-      var quick = document.createElement('div');
-      quick.className = 'quick-actions';
-      var callLink = document.createElement('a');
-      callLink.className = 'call-link';
-      callLink.href = 'tel:' + o.phone;
-      callLink.textContent = '📞 تماس مستقیم';
-      var waMsg = 'سلام، سفارش شما از MorsAra ثبت شد. برای هماهنگی بیشتر با شما تماس می‌گیریم.';
-      var waLink = document.createElement('a');
-      waLink.className = 'wa-link';
-      waLink.href = 'https://wa.me/98' + o.phone.replace(/^0/, '') + '?text=' + encodeURIComponent(waMsg);
-      waLink.target = '_blank';
-      waLink.rel = 'noopener noreferrer';
-      waLink.textContent = '💬 واتساپ';
-      quick.appendChild(callLink);
-      quick.appendChild(waLink);
-      card.appendChild(quick);
-    }
-
-    var grid = document.createElement('div');
-    grid.className = 'oc-grid';
-    var fields = [
-      ['شماره تماس', o.phone || '—', 'phone'],
-      ['نوع محصول', o.productType || '—', ''],
-      ['کد مورس', o.morseCode || '—', 'morse'],
-      ['تعداد نقطه', toFaDigits(o.dotCount || 0), ''],
-      ['تعداد خط', toFaDigits(o.dashCount || 0), ''],
-      ['تعداد مهره قلبی', toFaDigits(o.heartCount || 0), ''],
-      ['رنگ مهره‌ها', colorsStr, ''],
-      ['نوع بند', o.cordType || '—', '']
-    ];
-    fields.forEach(function (f) {
-      var item = document.createElement('div');
-      item.className = 'oc-item';
-      var k = document.createElement('div');
-      k.className = 'k';
-      k.textContent = f[0];
-      var v = document.createElement('div');
-      v.className = 'v' + (f[2] ? ' ' + f[2] : '');
-      v.textContent = f[1];
-      item.appendChild(k);
-      item.appendChild(v);
-      grid.appendChild(item);
-    });
-    if(o.notes){
-      var noteItem = document.createElement('div');
-      noteItem.className = 'oc-item';
-      noteItem.style.gridColumn = '1/-1';
-      var nk = document.createElement('div');
-      nk.className = 'k';
-      nk.textContent = 'توضیحات / آدرس';
-      var nv = document.createElement('div');
-      nv.className = 'v';
-      nv.textContent = o.notes;
-      noteItem.appendChild(nk);
-      noteItem.appendChild(nv);
-      grid.appendChild(noteItem);
-    }
-    card.appendChild(grid);
-
-    var statusRow = document.createElement('div');
-    statusRow.className = 'status-row';
-
-    var leftControls = document.createElement('div');
-    leftControls.className = 'left-controls';
-    var badge = document.createElement('span');
-    badge.className = 'status-badge ' + statusClass(status);
-    badge.textContent = status;
-    var select = document.createElement('select');
-    select.className = 'status-select';
-    STATUSES.forEach(function (opt) {
-      var optionEl = document.createElement('option');
-      optionEl.value = opt;
-      optionEl.textContent = opt;
-      if(opt === status) optionEl.selected = true;
-      select.appendChild(optionEl);
-    });
-    var savingLabel = document.createElement('span');
-    savingLabel.className = 'status-saving';
-    select.addEventListener('change', function () {
-      updateStatus(o.id, select.value, select, savingLabel);
-    });
-    leftControls.appendChild(badge);
-    leftControls.appendChild(select);
-    leftControls.appendChild(savingLabel);
-
-    /* حذف سفارش با تاییدِ دومرحله‌ای؛ اولین کلیک فقط رنگ دکمه را عوض می‌کند
-       و باید ظرف چند ثانیه دوباره کلیک شود تا واقعاً حذف انجام شود */
-    var delBtn = document.createElement('button');
-    delBtn.type = 'button';
-    delBtn.className = 'delete-btn';
-    delBtn.textContent = 'حذف سفارش';
-    delBtn.addEventListener('click', function () {
-      if(pendingDeleteId !== o.id){
-        pendingDeleteId = o.id;
-        delBtn.textContent = 'مطمئنید؟ دوباره بزنید';
-        delBtn.classList.add('confirming');
-        setTimeout(function () {
-          if(pendingDeleteId === o.id){
-            pendingDeleteId = null;
-            delBtn.textContent = 'حذف سفارش';
-            delBtn.classList.remove('confirming');
-          }
-        }, 4000);
-        return;
-      }
-      pendingDeleteId = null;
-      deleteOrder(o.id, card);
-    });
-
-    statusRow.appendChild(leftControls);
-    statusRow.appendChild(delBtn);
-    card.appendChild(statusRow);
-
-    return card;
-  }
-
-  /* ---- تغییر وضعیت سفارش ---- */
-  function updateStatus(orderId, newStatus, selectEl, savingLabel){
-    selectEl.disabled = true;
-    savingLabel.textContent = 'در حال ذخیره…';
-    db.collection('orders').doc(orderId).update({ status: newStatus })
-      .then(function () {
-        var order = allOrders.find(function (o) { return o.id === orderId; });
-        if(order) order.status = newStatus;
-        savingLabel.textContent = '';
-        renderStats();
-        renderOrders();
-      })
-      .catch(function (err) {
-        console.error('[MorsAra-Admin] خطای تغییر وضعیت:', err);
-        savingLabel.textContent = 'خطا در ذخیره وضعیت';
-        selectEl.disabled = false;
+    /* باز/بسته کردن جزئیات */
+    ordersList.querySelectorAll('[data-toggle]').forEach(function (row) {
+      row.addEventListener('click', function () {
+        row.closest('.order-card').classList.toggle('open');
       });
-  }
+    });
 
-  /* ---- حذف سفارش ---- */
-  function deleteOrder(orderId, cardEl){
-    cardEl.style.opacity = '.5';
-    db.collection('orders').doc(orderId).delete()
-      .then(function () {
-        allOrders = allOrders.filter(function (o) { return o.id !== orderId; });
-        renderStats();
-        renderReport();
-        renderOrders();
-      })
-      .catch(function (err) {
-        console.error('[MorsAra-Admin] خطای حذف سفارش:', err);
-        cardEl.style.opacity = '1';
-        alert('حذف سفارش با خطا مواجه شد. دوباره تلاش کنید.');
+    /* علامت‌گذاری وضعیت */
+    ordersList.querySelectorAll('[data-done]').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        db.collection('orders').doc(btn.dataset.done).update({ status: 'انجام‌شده' })
+          .catch(function (err) { console.error('[MorsAra-Admin] خطای به‌روزرسانی وضعیت:', err); });
       });
-  }
-
-  /* ---- خروجی CSV (در اکسل باز می‌شود) ---- */
-  function exportCsv(){
-    var headers = ['شماره سفارش', 'تاریخ', 'نام', 'تماس', 'نوع محصول', 'متن', 'کد مورس', 'نقطه', 'خط', 'مهره قلبی', 'رنگ‌ها', 'نوع بند', 'وضعیت', 'مبلغ نهایی', 'توضیحات'];
-    var rows = allOrders.map(function (o) {
-      var dateStr = (o.createdAt && o.createdAt.toDate) ? o.createdAt.toDate().toLocaleString('fa-IR') : '';
-      return [
-        orderNumber(o.id), dateStr, o.name || '', o.phone || '', o.productType || '',
-        o.name || '', o.morseCode || '', o.dotCount || 0, o.dashCount || 0, o.heartCount || 0,
-        Array.isArray(o.colors) ? o.colors.join(' / ') : '', o.cordType || '', o.status || 'جدید',
-        o.totalPrice || 0, o.notes || ''
-      ];
     });
-    var csvLines = [headers].concat(rows).map(function (row) {
-      return row.map(function (cell) {
-        var s = String(cell).replace(/"/g, '""');
-        return '"' + s + '"';
-      }).join(',');
+    ordersList.querySelectorAll('[data-undo]').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        db.collection('orders').doc(btn.dataset.undo).update({ status: 'جدید' })
+          .catch(function (err) { console.error('[MorsAra-Admin] خطای به‌روزرسانی وضعیت:', err); });
+      });
     });
-    var csvContent = '\uFEFF' + csvLines.join('\r\n'); // BOM برای نمایش درست فارسی در اکسل
-    var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url;
-    a.download = 'morsara-orders-' + new Date().toISOString().slice(0, 10) + '.csv';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
   }
-  document.getElementById('exportBtn').addEventListener('click', exportCsv);
 
 });
 </script>
